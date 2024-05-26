@@ -5,8 +5,8 @@
 TODO[¿Qué tipo de bucles hay en JS?](#bucles)</br>
 [¿Cuáles son las diferencias entre const, let y var?](#tipos-de-variables)</br>
 TODO[¿Qué es una función de flecha?](#funciones-flecha)</br>
-TODO[¿Qué es la deconstrucción de variables?](#deconstrucción-de-variable)</br>
-TODO[¿Qué hace el operador de extensión en JS?](#operador-de-extensión)</br>
+TODO[¿Qué es la deconstrucción de variables?](#deconstrucción-de-variables)</br>
+[¿Qué hace el operador de extensión en JS?](#operador-de-extensión)</br>
 TODO[¿Qué es la programación orientada a objetos?](#programación-orientada-a-objetos)</br>
 TODO[¿Qué es una promesa en JS?](#promesas)</br>
 TODO[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
@@ -17,6 +17,13 @@ TODO[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
 
 
 # BUCLES
+
+
+
+</br></br></br></br>
+
+
+
 
 # TIPOS DE VARIABLES
 
@@ -337,42 +344,90 @@ A continuación se muestra una tabla en la que se comparan las diferentes propie
 
 # FUNCIONES FLECHA
 
-# DECONSTRUCCIÓN DE VARIABLE
+
+
+</br></br></br></br>
+
+
+
+
+# DECONSTRUCCIÓN DE VARIABLES
+
+
+
+</br></br></br></br>
+
+
+
 
 # OPERADOR DE EXTENSIÓN
 
-El operador extensión toma un objeto iterable y expande todos sus elementos permitiéndonos operar con ellos individualmente en vez de como una agrupación. Este operador se representa con tres puntos `...` y siempre se escribe inmediatamente antes del objeto iterable.
+El operador de extensión toma un objeto iterable y expande todos sus elementos permitiéndonos operar con ellos individualmente en vez de como una agrupación. Este operador se representa con tres puntos `...` y siempre se escribe inmediatamente antes del objeto iterable a expandir.
 
 ```js
 const objetoIterable = [1, 2, 3];
 
 const [a, b, c] = [...objetoIterable];
+
+console.log(a); //1
+console.log(b); //2
+console.log(c); //3
 ```
+
+</br>
+
+
+Se trata de un operador de uso muy versátil ya que puede emplearse con varios propósitos en función de con qué tipo de objeto estemos trabajando. 
+
+</br>
+
+
+### USO CON ARRAYS
+
+El operador de extensión `...` permite concatenar fácilmente dos o más *arrays*.
 
 ```js
-const [contenedor] = [1, 2, 3];
+const primeraParte = [1, 2];
+const segundaParte = [3, 4];
+const terceraParte = [5, 6];
+
+const variableCompleta = [...primeraParte, ...segundaParte, ...terceraParte];
+
+console.log(variableCompleta); //[1, 2, 3, 4, 5, 6]
 ```
 
+</br>
+
+
+También resulta de gran utilidad cuando se necesita integrar un *array* dentro de otro.
 
 ```js
-const primeraParte = [1, 2, 3];
-const segundaParte = [4, 5, 6];
+const parteCentral = [3, 4, 5];
 
+const variableCompleta = [1, 2, ...parteCentral ,6];
 
-const variableCompletaSinSpread = [primeraParte, segundaParte];
-const variableCompleta = [...primeraParte, ...segundaParte];
-
-
-console.log(variableCompletaSinSpread);
-//[[1, 2, 3], [4, 5, 6]]
-
-console.log(variableCompleta);
-//[1, 2, 3, 4, 5, 6]
+console.log(variableCompleta); //[1, 2, 3, 4, 5, 6]
 ```
 
+</br>
 
 
+### USO CON CADENAS
 
+Podemos usar el operador `...` para separar individualmente los diferentes caracteres de un cadena.
+
+```js
+let cadena = "Sapo azul";
+
+let caracteres = [...cadena];
+
+console.log(caracteres); //["S", "a", "p", "o", " ", "a", "z", "u", "l"]
+```
+
+</br>
+
+
+### USO CON OBJETOS
 
 También podemos usar el operador `...` con un objeto para separar cada una de sus propiedades de forma individual.
 
@@ -398,7 +453,31 @@ console.log(datosCompletos);
 //{título: "Los Juegos del Hambre", autor: "Suzanne Collins", edición: "segunda", editorial: "MOLINO", páginas: "400"}
 ```
 
+</br>
 
+
+### USO CON ARRAYS COMO ARGUMENTOS DE FUNCIÓN
+
+JavaScript no nos permite pasar un *array* como argumento directamente a una función. Sin embargo, el operador `...` separa en elementos el *array* de forma que la función los acepte como argumentos individuales.
+
+```js
+let dimensiones = [2, 7, 3];
+
+function calcularVolumen(anchura, profundidad, altura) {
+      return anchura * profundidad * altura;
+          
+}
+
+console.log(calcularVolumen(...dimensiones)); //42
+
+```
+
+</br>
+
+
+### USO CON DECONSTRUCCIÓN DE VARIABLES
+
+Usado junto a la deconstrucción de variables el operador `...` nos permite asignar a un *array* el resto de variables que han quedado sin asignar en la deconstrucción. 
 
 
 ```js
@@ -407,6 +486,12 @@ const [a, b, ...resto] = [1, 2, 3, 4, 5];
 console.log(resto); //[3, 4, 5]
 ```
 
+</br></br></br></br>
+
+
+
+
+# PROGRAMACIÓN ORIENTADA A OBJETOS
 
 
 
@@ -415,8 +500,13 @@ console.log(resto); //[3, 4, 5]
 
 
 
-# PROGRAMACIÓN ORIENTADA A OBJETOS
-
 # PROMESAS
+
+
+
+</br></br></br></br>
+
+
+
 
 # ASYNC Y AWAIT
