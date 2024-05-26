@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Checkpoint 08</title>
+</head>
+<body>
+      <div id="content"></div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+        var xmlhttp;
+  
+        xmlhttp=new XMLHttpRequest();
+        xmlhttp.open('GET', "README.md", false);
+        xmlhttp.send();
+        
+      //document.getElementById('content').innerHTML = marked.parse('# Marked in browser\n\nRendered by **marked**.');
+      document.getElementById('content').innerHTML = marked.parse(xmlhttp.responseText);
+      </script>
+</body>
+</html>
