@@ -4,7 +4,7 @@
 
 TODO[¿Qué tipo de bucles hay en JS?](#bucles)</br>
 [¿Cuáles son las diferencias entre const, let y var?](#tipos-de-variables)</br>
-TODO[¿Qué es una función de flecha?](#funciones-flecha)</br>
+TODO[¿Qué es una función de flecha?](#función-flecha)</br>
 TODO[¿Qué es la deconstrucción de variables?](#deconstrucción-de-variables)</br>
 [¿Qué hace el operador de extensión en JS?](#operador-de-extensión)</br>
 TODO[¿Qué es la programación orientada a objetos?](#programación-orientada-a-objetos)</br>
@@ -16,7 +16,7 @@ TODO[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
 
 
 
-# BUCLES
+## BUCLES
 
 
 
@@ -25,7 +25,7 @@ TODO[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
 
 
 
-# TIPOS DE VARIABLES
+## TIPOS DE VARIABLES
 
 El tipo de datos contenido por una variable en JavaScript depende del valor asignado, no se define de forma explícita. Sin embargo, al declarar la variable sí debemos especificar de qué tipo de variable se trata. Existen tres tipos disponibles en JavaScript y son los siguientes: 
 
@@ -252,7 +252,7 @@ const variableConstante; //error
 
 ##### REASIGNACIÓN
 
-Una variable de tipo `const ` no admite la reasignación de valores y hacerlo nos dará error.
+Una variable de tipo `const` no admite la reasignación de valores y hacerlo nos dará error.
  
 ```js
 const variableConstante = "Valor inicial";
@@ -342,7 +342,299 @@ A continuación se muestra una tabla en la que se comparan las diferentes propie
 
 
 
-# FUNCIONES FLECHA
+## FUNCIÓN FLECHA
+
+La función flecha es un tipo especial de expresión de función introducido por primera vez en la versión ES6 de JavaScript.
+Al igual que la expresión de función, se trata de una función anónima asociada a una variable. Sin embargo, la función flecha destaca por proporcionar una sintaxis más abreviada y de fácil lectura.
+
+Las funciones flecha prescinden de la palabra clave `function` y usan un símbolo de flecha `=>` para su definición.
+
+```js
+sumar = (a, b, c) => {
+      let total = 0;
+      
+      total += a;
+      total += b;
+      total += c;
+      
+      return total;
+}
+
+console.log(sumar(2, 2, 6)); //10
+```
+
+</br>
+
+
+Además, en el caso de que la función solo tenga una sentencia y esta devuelva un único valor podemos incluso prescindir de la palabra clave `return` y las llaves `{}`.
+
+```js
+sumar = (a, b, c) => a + b + c;
+
+
+console.log(sumar(2, 2, 6)); //10
+```
+
+</br>
+
+
+Por último, en el caso de que la función tenga un solo parámetro podemos prescindir también de los paréntesis `()`.
+
+```js
+saludo = nombre => `Hola, mi nombre es ${nombre}`;
+
+
+console.log(saludo("Romina")); //Hola, mi nombre es Romina
+```
+
+</br>
+
+
+### THIS
+
+La principal característica que diferencia a las funciones flecha es el comportamiento de la palabra clave `this`. En este tipo de función `this` siempre hace referencia al objeto donde ha sido definida la función y no al objeto que la llama.
+
+
+```js
+const mostrarFlecha = () => console.log(this.valor);
+
+function mostrarNormal() {
+      console.log(this.valor);      
+}
+      
+
+const miObjeto = {
+      ejecutarMostrarFlecha: mostrarFlecha,
+      ejecutarMostrarNormal: mostrarNormal,
+      valor: 10
+}
+
+
+miObjeto.ejecutarMostrarFlecha(); //undefined
+miObjeto.ejecutarMostrarNormal(); //10
+```
+
+</br>
+
+
+### USOS COMUNES
+
+Debido a la brevedad y facilidad de lectura que proporcionan las funciones flecha, su uso es habitual en una amplia variedad de situaciones.
+
+Un ejemplo claro es la evaluación sencilla de variables.
+
+```js
+const par = (n) => (n % 2 == 0 ? "Sí" : "No");
+
+console.log(par(8)); //Sí
+console.log(par(9)); //No
+console.log(par(3)); //No
+
+
+const mayor = (a, b, c) => ((a > b ? a : b) > c ? (a > b ? a : b) : c);
+
+console.log(mayor(3, 5, 2)); //5
+console.log(mayor(8, 4, 7)); //8
+console.log(mayor(6, 1, 9)); //9
+```
+
+</br>
+
+
+Las funciones flecha también son muy útiles para el trabajo con *arrays*.
+
+```js
+let arr = [5, 6, 13, 0, 1, 18, 23];
+
+
+let suma = arr.reduce((a, b) => a + b);
+let pares = arr.filter((v) => v % 2 == 0);
+let doble = arr.map((v) => v * 2);
+
+
+console.log(suma); //66
+console.log(pares); //[6, 0, 18]
+console.log(doble); //[10, 12, 26, 0, 2, 36, 46]
+```
+
+</br>
+
+
+De igual forma, las funciones flecha resultan ser idóneas para escribir cadenas de promesas más concisas.
+
+```js
+hacerAlgo()
+      .then((resultado) => doSomethingElse(resultado))
+      .then((nuevoResultado) => doThirdThing(nuevoResultado))
+      .then((resultadoFinal) => {
+        console.log(`El resultado final es: ${resultadoFinal}`);
+      })
+      .catch(failureCallback);
+```
+
+</br></br></br></br>
+
+
+
+
+## DECONSTRUCCIÓN DE VARIABLES
+
+La deconstrucción de variables es una expresión que nos permite asignar el valor de varias variables a la vez en una sola línea de código. Las variables son agrupadas y asignadas como conjunto a otra agrupación de variables o valores. Las variables son asignadas así al elemento correspondiente en el otro conjunto, situado este en la parte derecha de la expresión.
+
+```js
+let valores = [18, "Verde", {x: 2, y: -5}];
+
+let [edad, color, coordenadas] = valores;
+
+console.log(edad); //18
+console.log(color); //Verde
+console.log(coordenadas); //{x: 2, y: -5}
+```
+
+</br>
+
+
+### USO CON ARRAYS
+
+Cuando usamos la deconstrucción de variables con *arrays* ambos lados de la expresión de deconstrucción de variables 
+
+Es muy importante tener en cuenta el orden en el que se definen las variables contenidas dentro del *array* ya que se asignan en ese orden a los elementos contenidos en el *array* de la parte derecha.
+
+
+
+Si lo deseamos podemos dejar posiciones vacías en el *array* ignorando así los elementos correspondientes a esas posiciones.
+
+```js
+const datosObjeto = ["37cm", "dato no importante", "500gr"]
+
+const [longitud, , peso] = datosObjeto;
+
+console.log(longitud); //37cm
+console.log(peso); //500gr
+```
+
+</br>
+
+
+Un uso muy común de la deconstrucción de variables es para intercambiar el valor de dos valores sin necesidad de recurrir a una tercera variable temporal.
+
+```js
+let a = 30;
+let b = 80;
+
+[a, b] = [b, a];
+
+console.log(a); //80
+console.log(b); //30
+```
+
+Un uso práctico de la deconstrucción de variables es para poder declarar múltiples variables y asignarles un valor.
+
+```js
+let [a, b, c, d] = [1, 2, 3, 4];
+
+console.log(a); //1
+console.log(b); //2
+console.log(c); //3
+console.log(d); //4
+```
+
+
+Cunado una función retorna un *array* de valores, resulta muy útil usar la deconstrucción de variables para recoger estos valores en variables independientes.
+
+```js
+function calcularOperaciones(a, b) {
+      let suma = a + b;
+      let resta = a - b;
+      let multiplicación = a * b;
+      let división = a / b;
+      
+      return [suma, resta, multiplicación, división];
+}
+
+let [suma, resta, multiplicación, división] = calcularOperaciones(5, 2);
+
+console.log(suma); //7
+console.log(resta); //3
+console.log(multiplicación); //10
+console.log(división); //2.5
+```
+
+
+
+
+
+
+
+
+
+
+
+
+### USO CON OBJETOS
+
+
+Cuando pasamos un objeto como argumento a una función, la deconstrucción de variables facilita que la función tome las propiedades necesarias para usarlas directamente y que no haga falta expresar `objeto.propiedad` cada vez que se usa una propiedad del objeto.
+
+```js
+const visitante = {
+      nombre: "Pablo",
+      apellido: "García", 
+      altura: 185,
+      peso: 78,
+      nacionalidad: "colombiana"
+}
+
+
+function mostrarDatos({nombre, apellido, nacionalidad}) {
+      console.log(` ${nombre} ${apellido}, nacionalidad ${nacionalidad}`);
+}
+
+
+mostrarDatos(visitante); //Pablo García, nacionalidad colombiana
+```
+
+
+Incluso podemos especificar propiedades anidadas para que la función las tome como argumentos. Para ello debemos usar nuevamente la deconstrucción de variables con las propiedades anidadas.
+
+```js
+const mueble = {
+      tipo: "mesa",
+      ubicación: "comedor", 
+      color: "azul",
+      medidas: {
+            anchura: 90,
+            profundidad: 200,
+            altura: 70
+      } 
+}
+
+
+function mostrarDatos({tipo, ubicación, medidas: {anchura, profundidad} }) {
+      console.log(`El mueble es una ${tipo}, se encuentra en el ${ubicación} y mide ${anchura}x${profundidad}cm`);
+}
+
+
+mostrarDatos(mueble); //El mueble es una mesa, se encuentra en el comedor y mide 90x200cm
+```
+
+
+
+
+
+*ARRAYS*
+
+
+
+
+
+OBJETOS
+
+orden de los atributos no importa
+
+
+deconstrucción profunda a varios niveles
+
 
 
 
@@ -351,16 +643,7 @@ A continuación se muestra una tabla en la que se comparan las diferentes propie
 
 
 
-# DECONSTRUCCIÓN DE VARIABLES
-
-
-
-</br></br></br></br>
-
-
-
-
-# OPERADOR DE EXTENSIÓN
+## OPERADOR DE EXTENSIÓN
 
 El operador de extensión toma un objeto iterable y expande todos sus elementos permitiéndonos operar con ellos individualmente en vez de como una agrupación. Este operador se representa con tres puntos `...` y siempre se escribe inmediatamente antes del objeto iterable a expandir.
 
@@ -491,7 +774,7 @@ console.log(resto); //[3, 4, 5]
 
 
 
-# PROGRAMACIÓN ORIENTADA A OBJETOS
+## PROGRAMACIÓN ORIENTADA A OBJETOS
 
 
 
@@ -500,8 +783,8 @@ console.log(resto); //[3, 4, 5]
 
 
 
-# PROMESAS
-
+## PROMESAS
+<p id="promesas"></p>
 
 
 </br></br></br></br>
@@ -509,4 +792,4 @@ console.log(resto); //[3, 4, 5]
 
 
 
-# ASYNC Y AWAIT
+## ASYNC Y AWAIT
