@@ -71,13 +71,13 @@
     
     a,
     a:visited {
-      color: #3498db;
+      color: #db8889;
     }
     
     a:hover,
     a:focus,
     a:active {
-      color: #2980b9;
+      color: #979797;
     }
     
     .modest-no-decoration {
@@ -142,11 +142,13 @@
     h4,
     .modest-h4 {
       font-size: 1.414rem;
+      text-decoration-line: underline;
+      text-decoration-thickness: 0.25rem;
     }
-    
+
     h5,
     .modest-h5 {
-      font-size: 1.121rem;
+          font-size: 1.121rem;
     }
     
     h6,
@@ -215,8 +217,7 @@
     }
     
     h1,
-    h2,
-    h3 {
+    h2 {
       border-bottom: 2px solid #ffffff;
       margin-bottom: 1.15rem;
       padding-bottom: .5rem;
@@ -240,3 +241,14 @@
     p:has(a) {
       text-align: center;
     }
+    
+    table {
+      margin-left: auto;
+      margin-right: auto;
+      width: 80%;
+    }
+    
+    th {
+      padding-bottom: 0.5rem;
+    }
+    

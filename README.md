@@ -1,11 +1,11 @@
 
 
-# PREGUNTAS TEÓRICAS
+# CHECKPOINT 08
 
 TODO[¿Qué tipo de bucles hay en JS?](#bucles)</br>
 [¿Cuáles son las diferencias entre const, let y var?](#tipos-de-variables)</br>
-TODO[¿Qué es una función de flecha?](#función-flecha)</br>
-TODO[¿Qué es la deconstrucción de variables?](#deconstrucción-de-variables)</br>
+[¿Qué es una función de flecha?](#función-flecha)</br>
+[¿Qué es la deconstrucción de variables?](#deconstrucción-de-variables)</br>
 [¿Qué hace el operador de extensión en JS?](#operador-de-extensión)</br>
 TODO[¿Qué es la programación orientada a objetos?](#programación-orientada-a-objetos)</br>
 TODO[¿Qué es una promesa en JS?](#promesas)</br>
@@ -15,6 +15,7 @@ TODO[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
 
 
 
+<p id="bucles"></p>
 
 ## BUCLES
 
@@ -24,6 +25,7 @@ TODO[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
 
 
 
+<p id="tipos-de-variables"></p>
 
 ## TIPOS DE VARIABLES
 
@@ -43,9 +45,7 @@ Estos tres tipos presentan comportamientos parecidos y son algunas de sus propie
 
 ### VAR
 
-Antes de la versión ES6 de JavaScript `var` era el único tipo de variable disponible.
-
-Se declaran con la palabra clave `var` y no es necesario asignar un valor inicial.
+Antes de la versión ES6 de JavaScript `var` era el único tipo de variable disponible. Se declara con la palabra clave `var` y no es necesario asignar un valor inicial.
 
 ```js
 var unaVariable = "Llueve";
@@ -56,7 +56,7 @@ var otraVariable;
 <br>
 
 
-##### REASIGNACIÓN
+#### REASIGNACIÓN
 
 A una variable de tipo `var` se le pueden reasignar valores tantas veces como se desee.
 
@@ -71,7 +71,7 @@ miVariable = true;
 </br>
 
 
-##### REDECLARACIÓN
+#### REDECLARACIÓN
 
 Una variable de tipo `var` puede declararse múltiples veces en el programa sin causar ningún error.
 
@@ -91,7 +91,7 @@ var miVariable = true;
 </br>
 
 
-##### ÁMBITO DE USO
+#### ÁMBITO DE USO
 
 Una variable `var` puede tener dos ámbitos de uso en función de dónde sea declarada: global y local. La variable podrá ser solamente accedida en ese ámbito.
 
@@ -135,7 +135,7 @@ Es por ello que para evitar este tipo de potenciales problemas se añadieron las
 </br>
 
 
-##### HOISTING
+#### HOISTING
 
 Una variable `var` se beneficia del *hoisting* llevado a cabo por JavaScript ya que nos permite hacer referencia a una variable incluso antes de haber sido declarada. Sin embargo, hay que tener en cuenta que el valor inicial de la variable siempre será `undefined`.
 
@@ -163,7 +163,7 @@ let otraVariable;
 </br>
 
 
-##### REASIGNACIÓN
+#### REASIGNACIÓN
 
 A una variable de tipo `let` se le puede reasignar un nuevo valor las veces deseadas.
 
@@ -178,7 +178,7 @@ miVariable = true;
 </br>
 
 
-##### REDECLARACIÓN
+#### REDECLARACIÓN
 
 La redeclaración de variables `let` no es posible y hacerlo nos dará error.
 
@@ -191,7 +191,7 @@ let miVariable; //error
 </br>
 
 
-##### ÁMBITO DE USO
+#### ÁMBITO DE USO
 
 El ámbito de uso de las variables `let` es siempre el bloque de código en el que han sido declaradas y no serán accesibles desde fuera de este.
 
@@ -224,7 +224,7 @@ console.log(saludo) //Hola
 </br>
 
 
-##### HOISTING
+#### HOISTING
 
 Una variable `let` no se beneficia del *hoisting* de JavaScript y no puede hacerse referencia a ella antes de su declaración. Si lo hacemos JavaScript nos mostrará un error.
 
@@ -250,7 +250,7 @@ const variableConstante; //error
 </br>
 
 
-##### REASIGNACIÓN
+#### REASIGNACIÓN
 
 Una variable de tipo `const` no admite la reasignación de valores y hacerlo nos dará error.
  
@@ -263,7 +263,7 @@ variableConstante = "Valor nuevo"; //error
 </br>
 
 
-##### REDECLARACIÓN
+#### REDECLARACIÓN
 
 La redeclaración de variables `const` no es posible y hacerlo nos dará error.
 
@@ -276,7 +276,7 @@ const variableConstante  = "Valor alternativo"; //error
 </br>
 
 
-##### ÁMBITO DE USO
+#### ÁMBITO DE USO
 
 El ámbito de uso de las variables `const` es siempre el bloque de código en el que han sido declaradas y no serán accesibles desde fuera de este.
 
@@ -309,7 +309,7 @@ console.log(saludo) //Hola
 </br>
 
 
-##### HOISTING
+#### HOISTING
 
 En lo que respecta al *hoisting*, las variables `const` no son inicializadas y por eso no pueden usarse antes de haber sido declaradas.
 
@@ -329,18 +329,19 @@ A continuación se muestra una tabla en la que se comparan las diferentes propie
 </br>
 
 
-| PROPIEDADES                       |     | `var`                               | `let`           | `const`         |
-| :-------------------------------- | --- | :---------------------------------: | :-------------: | :-------------: |
-| Necesario inizializar al declarar |     | No                                  | No              | Sí              |
-| Reasignación                      |     | Sí                                  | Sí              | No              |
-| Redeclaración                     |     | Sí                                  | No              | No              |
-| Ámbito de uso                     |     | global y local                      | bloque          | bloque          |
-| Comportamiento del *Hoisting*     |     | inicializada como </br> `undefined` | no inicializada | no inicializada |
+| PROPIEDADES                | `var`            | `let`    | `const`   |
+| :------------------------- | :--------------: | :------: | :-------: |
+| Necesario inizializar      | No               | No       | Sí        |
+| Reasignación               | Sí               | Sí       | No        |
+| Redeclaración              | Sí               | No       | No        |
+| Ámbito de uso              | global / local   | bloque   | bloque    |
+| Inicialización *Hoisting*  | `undefined`      | No       | No        |
 
 </br></br></br></br>
 
 
 
+<p id="función-flecha"></p>
 
 ## FUNCIÓN FLECHA
 
@@ -476,6 +477,7 @@ hacerAlgo()
 
 
 
+<p id="deconstrucción-de-variables"></p>
 
 ## DECONSTRUCCIÓN DE VARIABLES
 
@@ -494,12 +496,49 @@ console.log(coordenadas); //{x: 2, y: -5}
 </br>
 
 
+Un uso práctico de la deconstrucción de variables es para poder declarar múltiples variables y asignarles un valor.
+
+```js
+let [a, b, c, d] = [1, 2, 3, 4];
+
+console.log(a); //1
+console.log(b); //2
+console.log(c); //3
+console.log(d); //4
+```
+
+</br>
+
+
 ### USO CON ARRAYS
 
-Cuando usamos la deconstrucción de variables con *arrays* ambos lados de la expresión de deconstrucción de variables 
+Cuando usamos la deconstrucción de variables con *arrays* es muy importante tener en cuenta el orden en el que se definen las variables contenidas dentro del *array*, ya que se asignan en ese orden a los elementos contenidos en el *array* de la parte derecha.
 
-Es muy importante tener en cuenta el orden en el que se definen las variables contenidas dentro del *array* ya que se asignan en ese orden a los elementos contenidos en el *array* de la parte derecha.
+En el caso de que la variable no tenga un elemento correspondiente en el otro conjunto, se le asigna el valor `undefined`.
 
+```js
+let [a, b, c] = [3, 9];
+
+console.log(a); //3
+console.log(b); //9
+console.log(c); //undefined
+```
+
+</br>
+
+
+Además, es posible asignar un valor por defecto a las variables para el caso en que no se les asigne un valor en la desconstrucción de variables.
+
+```js
+let a, b;
+
+[a = 34, b = 71] = [15];
+
+console.log(a); //15
+console.log(b); //71
+```
+
+</br>
 
 
 Si lo deseamos podemos dejar posiciones vacías en el *array* ignorando así los elementos correspondientes a esas posiciones.
@@ -528,16 +567,7 @@ console.log(a); //80
 console.log(b); //30
 ```
 
-Un uso práctico de la deconstrucción de variables es para poder declarar múltiples variables y asignarles un valor.
-
-```js
-let [a, b, c, d] = [1, 2, 3, 4];
-
-console.log(a); //1
-console.log(b); //2
-console.log(c); //3
-console.log(d); //4
-```
+</br>
 
 
 Cunado una función retorna un *array* de valores, resulta muy útil usar la deconstrucción de variables para recoger estos valores en variables independientes.
@@ -560,18 +590,50 @@ console.log(multiplicación); //10
 console.log(división); //2.5
 ```
 
-
-
-
-
-
-
-
-
-
+</br>
 
 
 ### USO CON OBJETOS
+
+Cuando se usa la deconstrucción de variables con objetos, los valores correspondientes de los dos conjuntos son los que tienen el mismo nombre de propiedad.
+
+```js
+let objeto = { a: 10, b: 20, c: 30}
+
+let {c, a, b} = objeto;
+
+console.log(a); //10
+console.log(b); //20
+console.log(c); //30
+```
+
+</br>
+
+
+También es posible asignar un nombre a la variable que no sea el de la propiedad del objeto. Para ello añadimos el símbolo `:` y el nombre después de la propiedad. 
+
+```js
+const información = { dato1: "Andrés" , dato2: 35 };
+const { dato1: nombre, dato2: edad } = información;
+
+console.log(nombre); //Andrés
+console.log(edad); //35
+```
+
+</br>
+
+
+Es posible asignar un valor por defecto a las variables para el caso en que no se les asigne un valor en la desconstrucción de variables.
+
+```js
+const { evento, día, hora = "no definida" } = { evento: "reunión", día: "martes" };
+
+console.log(evento); //reunión
+console.log(día); //martes
+console.log(hora); //no definida
+```
+
+</br>
 
 
 Cuando pasamos un objeto como argumento a una función, la deconstrucción de variables facilita que la función tome las propiedades necesarias para usarlas directamente y que no haga falta expresar `objeto.propiedad` cada vez que se usa una propiedad del objeto.
@@ -593,6 +655,8 @@ function mostrarDatos({nombre, apellido, nacionalidad}) {
 
 mostrarDatos(visitante); //Pablo García, nacionalidad colombiana
 ```
+
+</br>
 
 
 Incluso podemos especificar propiedades anidadas para que la función las tome como argumentos. Para ello debemos usar nuevamente la deconstrucción de variables con las propiedades anidadas.
@@ -618,30 +682,11 @@ function mostrarDatos({tipo, ubicación, medidas: {anchura, profundidad} }) {
 mostrarDatos(mueble); //El mueble es una mesa, se encuentra en el comedor y mide 90x200cm
 ```
 
-
-
-
-
-*ARRAYS*
-
-
-
-
-
-OBJETOS
-
-orden de los atributos no importa
-
-
-deconstrucción profunda a varios niveles
-
-
-
-
 </br></br></br></br>
 
 
 
+<p id="operador-de-extensión"></p>
 
 ## OPERADOR DE EXTENSIÓN
 
@@ -773,6 +818,7 @@ console.log(resto); //[3, 4, 5]
 
 
 
+<p id="programación-orientada-a-objetos"></p>
 
 ## PROGRAMACIÓN ORIENTADA A OBJETOS
 
@@ -782,14 +828,15 @@ console.log(resto); //[3, 4, 5]
 
 
 
+<p id="promesas"></p>
 
 ## PROMESAS
-<p id="promesas"></p>
 
 
 </br></br></br></br>
 
 
 
+<p id="async-y-await"></p>
 
 ## ASYNC Y AWAIT
