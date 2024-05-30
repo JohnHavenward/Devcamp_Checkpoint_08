@@ -814,6 +814,27 @@ const [a, b, ...resto] = [1, 2, 3, 4, 5];
 console.log(resto); //[3, 4, 5]
 ```
 
+</br>
+
+
+### USO CON PARÁMETROS DE FUNCIÓN
+
+Al usar el operador `...` en el último parámetro de una función, el resto de argumentos pasados en la llamada se agrupan en un *array* que puede ser manipulado en el código de la misma. Esto permite que la función admita un número indefinido de argumentos.
+
+```js
+function sumar(a, b, ...c) {
+      let resultado = a + b;
+
+      c.forEach(n => resultado += n);
+      
+      return resultado;
+}
+
+console.log(sumar(3,5)); //8
+console.log(sumar(9,2,6)); //17
+console.log(sumar(7,4,1,8)); //20
+```
+
 </br></br></br></br>
 
 
