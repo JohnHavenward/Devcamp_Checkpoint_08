@@ -1731,6 +1731,263 @@ Triángulo.calcular_área() #Se multiplica la base por la altura y se divide ent
 
 ## PROMESAS
 
+Las promesas de JavaScript son una herramienta para poder trabajar con código que se debe ejecutar de forma asíncrona. Un caso de uso muy habitual es para pedir archivos a un servidor remoto. El código debe solicitar el archivo y esperar a que el servidor le de una respuesta. Esta respuesta puede ser o no el archivo solicitado. En caso de error el programa debe ejecutar código alternativo.
+
+Las promesas son especialmente idóneas para ese tipo de casos porque son capaces de ejecutarse de forma asíncrona y pueden reaccionar tanto a una respuesta exitosa como a una fallida. 
+
+Una promesa puede estar en uno de los siguientes estados:
+
+- **Pending (Pendiente):** la promesa se encuentra en el estado inicial, ni cumplida ni rechazada
+- **Fulfilled (Cumplida):** la promesa se ha completado con éxito
+- **Rejected (Rechazada):** la promesa ha fallado
+
+</br>
+
+
+Todas las promesas se basan en el objeto `Promise` que está predefinido en JavaScript. Para crear una promesa nueva debemos usar la palabra clave `new` seguida de `Promise` y una función que debe aceptar dos argumentos. Estos dos argumentos son dos funciones y suelen tener por convenio los nombres `resolve` y `reject`. La función `resolve` indica que la promesa se cumple y la función `reject` que la promesa no se cumple. 
+
+La función recibe así estos dos argumentos y evalúa en su código si se cumple o no la promesa. Cuando se cumple llama a la función `resolve` pasando como argumento el valor o mensaje deseado. Igualmente, para el caso en que la promesa no se cumple, el código llama a la función `reject` pasando esta vez un error como argumento.
+
+```js
+let cumplirPromesa = true;
+
+let miPromesa = new Promise(function(resolve, reject) {
+      if (cumplirPromesa) {
+            resolve("Promesa cumplida");
+      }
+      else {
+            reject("Promesa rechazada");
+      }
+});
+```
+
+</br>
+
+
+Todos los objetos `Promise` contienen un método de nombre `then`. Este acepta dos funciones como argumentos, la primera se ejecuta si la promesa se cumple y la segunda si no lo hace. Ambas funciones deben tener un único parámetro que es el valor o error que devolverá la propia promesa al ejecutarse y por convenio es llamado `response` para la primera, y `error` para la segunda.
+
+Al llamar al método `then` comienza la ejecución de la promesa y se prolonga hasta obtener una respuesta.
+
+```js
+function ejecutarPromesa(cumplirPromesa) {
+      return new Promise(function(resolve, reject) {
+            if (cumplirPromesa) {
+                  resolve("Promesa cumplida");
+            }
+            else {
+                  reject("Promesa rechazada");
+            }
+      });
+};
+
+
+ejecutarPromesa(true).then(
+      function(response) { console.log("Ejecución normal: " + response) }, //Ejecución normal: Promesa cumplida
+      function(error) { console.log("Ha ocurrido un error: " + error) }
+);
+
+
+
+ejecutarPromesa(false).then(
+      function(response) { console.log("Ejecución normal: " + response) },
+      function(error) { console.log("Ha ocurrido un error: " + error) } //Ha ocurrido un error: Promesa rechazada
+);
+```
+
+</br>
+
+
+Los objetos `Promise` contienen también un método de nombre `catch`. Este método equivale a `then` con la diferencia de que solo recibe la función a ejecutar cuando la promesa no se cumple y por ello siempre se coloca después del método `then`. 
+
+```js
+function ejecutarPromesa(cumplirPromesa) {
+      return new Promise(function(resolve, reject) {
+            if (cumplirPromesa) {
+                  resolve("Promesa cumplida");
+            }
+            else {
+                  reject("Promesa rechazada");
+            }
+      });
+};
+
+
+ejecutarPromesa(false)
+      .then(response => console.log("Ejecución normal: " + response))
+      .catch(error => console.log("Ha ocurrido un error: " + error)); //Ha ocurrido un error: Promesa rechazada
+```
+
+</br>
+
+
+### ENCADENADO DE PROMESAS
+
+Es posible encadenar varias promesas para que se ejecuten de forma secuencial. Cada promesa devuelve una nueva promesa que se ejecuta tras resolverse la anterior.
+
+```js
+let primeraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 1 cumplida'), 2000)
+);
+
+let segundaPromesa = new Promise( (resolve) =>
+      setTimeout(() => resolve('Promesa 2 cumplida'), 4000)
+);
+
+let terceraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 3 cumplida'), 6000)
+);
+
+
+primeraPromesa
+      .then(response => {console.log(response); return segundaPromesa})
+      .then(response => {console.log(response); return terceraPromesa})
+      .then(response => {console.log(response)})
+      .catch(error => {console.log("hola " + error)});
+
+
+//CONSOLA:
+//Promesa 1 cumplida (tras 2 segundos)
+//Promesa 2 cumplida (tras 4 segundos)
+//Promesa 3 cumplida (tras 6 segundos)
+```
+
+</br>
+
+
+### OTROS MÉTODOS
+
+Existen otros métodos en el objeto `Promise` que pueden resultar muy útiles en determinadas situaciones.
+
+- `Promise.all()`
+- `Promise.allSettled()`
+- `Promise.any()`
+- `Promise.race()`
+- `Promise.resolve()`
+- `Promise.reject()`
+
+</br>
+
+
+#### Promise.all()
+
+El método `Promise.all()` devuelve una promesa que se cumple cuando todas las promesas en el argumento iterable han sido concluidas con éxito, o bien rechaza la petición con el motivo pasado por la primera promesa que es rechazada.
+
+```js
+let primeraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 1 cumplida'), 2000)
+);
+
+let segundaPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 2 cumplida'), 4000)
+);
+
+let terceraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 3 cumplida'), 6000)
+);
+
+
+Promise.all([primeraPromesa, segundaPromesa, terceraPromesa])
+      .then(response => console.log(response)); //["Promesa 1 cumplida", "Promesa 2 cumplida", "Promesa 3 cumplida"]
+```
+
+</br>
+
+
+#### Promise.allSettled()
+
+El método `Promise.allSettled()` toma un iterable de promesas como entrada y devuelve una única promesa. Esta promesa se cumple cuando todas las promesas del objeto iterable se cumplen y devuelve un *array* con los resultados de cada promesa. Aunque una promesa sea rechazada siempre se terminan de ejecutar el resto antes de dar una respuesta.
+
+```js
+let primeraPromesa = new Promise( (resolve, reject) => 
+      setTimeout(() => reject('Promesa 1 rechazada'), 2000)
+);
+
+let segundaPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 2 cumplida'), 4000)
+);
+
+let terceraPromesa = new Promise( (resolve, reject) => 
+      setTimeout(() => reject('Promesa 3 rechazada'), 6000)
+);
+
+
+Promise.allSettled([primeraPromesa, segundaPromesa, terceraPromesa])
+      .then(response => console.log(response)) //[{status: "rejected", reason: "Promesa 1 rechazada"}, {status: "fulfilled", value: "Promesa 2 cumplida"}, {status: "rejected", reason: "Promesa 3 rechazada"}] (tras 6 segundos)
+```
+
+</br>
+
+
+#### Promise.any()
+
+El método `Promise.any()` toma un iterable de promesas como entrada y devuelve una única promesa. Esta promesa se cumple cuando se cumple al menos una de las promesas del iterable y lo hace con el valor correspondiente. Sin embargo, la promesa es rechazada cuando todas las promesas del iterable son rechazadas y se pasa un objeto `AggregateError` que contiene los diferentes motivos de rechazo.
+
+```js
+let primeraPromesa = new Promise( (resolve, reject) => 
+      setTimeout(() => reject('Promesa 1 cumplida'), 2000)
+);
+
+let segundaPromesa = new Promise( (resolve, reject) => 
+      setTimeout(() => reject('Promesa 2 cumplida'), 4000)
+);
+
+let terceraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 3 cumplida'), 6000)
+);
+
+
+Promise.any([primeraPromesa, segundaPromesa, terceraPromesa])
+      .then(response => console.log(response)); //Promesa 3 cumplida (tras 6 segundos)
+```
+
+</br>
+
+
+#### Promise.race()
+
+El método `Promise.race()` retorna una promesa que se cumplirá o no tan pronto como una de las promesas del argumento iterable se cumpla o se rechace, con el valor o razón de rechazo de esta.
+
+```js
+let primeraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 1 cumplida'), 4000)
+);
+
+let segundaPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 2 cumplida'), 2000)
+);
+
+let terceraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 3 cumplida'), 6000)
+);
+
+
+Promise.race([primeraPromesa, segundaPromesa, terceraPromesa])
+      .then(response => console.log(response)); //Promesa 2 cumplida (tras 2 segundos)
+```
+
+</br>
+
+
+#### Promise.resolve()
+
+El método `Promise.resolve()` retorna un objeto `Promise` que es resuelto con el valor indicado.
+
+```js
+Promise.resolve("Promesa cumplida")
+      .then(response => console.log(response)); //Promesa cumplida
+```
+
+</br>
+
+
+#### Promise.reject()
+
+El método `Promise.reject()` retorna un objeto `Promise` que es rechazado por la razón especificada.
+
+```js
+Promise.reject("Ha habido un error")
+      .catch(error => console.log(error)); //Ha habido un error
+```
 
 </br></br></br></br>
 
@@ -1741,3 +1998,145 @@ Triángulo.calcular_área() #Se multiplica la base por la altura y se divide ent
 <p id="async-y-await"></p>
 
 ## ASYNC Y AWAIT
+
+Las palabras clave `async` y `await` sirven para trabajar de forma sencilla con promesas en JavaScript. Además, el código escrito resulta más fácil de leer y comprender.
+
+</br>
+
+
+### ASYNC
+
+Al escribir `async` antes de la definición de una función, esta se convierte en asíncrona. Esto implica que la función puede ejecutarse de forma asíncrona y además devuelve una promesa. 
+
+```js
+async function funcionAsincrona() {
+      return "Hola Mundo";
+};
+```
+
+</br>
+
+
+El código equivalente a una función `async` sería el siguiente:
+
+```js
+function funcionAsincrona() {
+      return Promise.resolve("Hola Mundo");
+};
+```
+
+</br>
+
+
+### AWAIT
+
+Una función `async` nos permite usar la palabra clave `await` dentro de su código. Se debe usar junto con una función que devuelva una promesa y sirve para suspender la ejecución de la función asíncrona mientras se espera a que se resuelva la promesa. Una vez resuelta esta, el código continua la ejecución normal.
+
+```js
+let miPromesa = new Promise(resolve => {
+      setTimeout(() => resolve('Promesa cumplida'), 2000)
+      }
+);
+
+
+async function funcionAsincrona() {
+      let mensaje = await miPromesa;
+      console.log(mensaje);
+}
+
+funcionAsincrona(); //Promesa cumplida (tras dos segundos de espera)
+```
+
+</br>
+
+
+### USO CON PROMESAS ENCADENADAS
+
+La ventaja de usar `async` y `await` se puede ver claramente en el encadenamiento de promesas. Nos evita la necesidad de configurar explícitamente las cadenas de promesas y controlar el flujo de ejecución de promesas resulta más fácil de hacer. Además el código obtenido es más sencillo y fácil de leer sobre todo cuando también se emplean funciones flecha.
+
+```js
+async function foo() {
+  try {
+    const result = await doSomething();
+    const newResult = await doSomethingElse(result);
+    const finalResult = await doThirdThing(newResult);
+    console.log(`Got the final result: ${finalResult}`);
+  } catch (error) {
+    failureCallback(error);
+  }
+}
+```
+
+```js
+let primeraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 1 cumplida'), 2000)
+);
+
+let segundaPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 2 cumplida'), 2000)
+);
+
+let terceraPromesa = new Promise( (resolve) => 
+      setTimeout(() => resolve('Promesa 3 cumplida'), 6000)
+);
+
+
+async function ejecutarPromesas() {
+      const p3 = await terceraPromesa;
+      console.log(p3);
+      const p1 = await primeraPromesa;
+      console.log(p1);
+      const p2 = await segundaPromesa;
+      console.log(p2);
+      
+      
+};
+
+ejecutarPromesas();
+```
+
+
+
+
+```js
+function primeraPromesa() {
+      return new Promise((resolve) => {
+            setTimeout(() => {
+                  resolve("Promesa 1 cumplida");
+            }, 2000);
+      });
+}
+
+function segundaPromesa() {
+      return new Promise((resolve) => {
+            setTimeout(() => {
+                  resolve("Promesa 2 cumplida");
+            }, 2000);
+      });
+}
+
+function terceraPromesa() {
+      return new Promise((resolve) => {
+            setTimeout(() => {
+                  resolve("Promesa 3 cumplida");
+            }, 2000);
+      });
+}
+
+async function ejecutarPromesas() {
+      const p1 = await primeraPromesa();
+      console.log(p1);
+      const p2 = await segundaPromesa();
+      console.log(p2);
+      
+};
+
+
+ejecutarPromesas()
+```
+
+
+
+
+
+
