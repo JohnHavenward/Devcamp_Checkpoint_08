@@ -8,8 +8,8 @@
 [¿Qué es la deconstrucción de variables?](#deconstrucción-de-variables)</br>
 [¿Qué hace el operador de extensión en JS?](#operador-de-extensión)</br>
 TODO[¿Qué es la programación orientada a objetos?](#programación-orientada-a-objetos)</br>
-TODO[¿Qué es una promesa en JS?](#promesas)</br>
-TODO[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
+[¿Qué es una promesa en JS?](#promesas)</br>
+[¿Qué hacen async y await por nosotros?](#async-y-await)</br>
 
 </br></br></br></br>
 
@@ -2006,7 +2006,7 @@ Las palabras clave `async` y `await` sirven para trabajar de forma sencilla con 
 
 ### ASYNC
 
-Al escribir `async` antes de la definición de una función, esta se convierte en asíncrona. Esto implica que la función puede ejecutarse de forma asíncrona y además devuelve una promesa. 
+Al escribir `async` antes de la definición de una función, esta se convierte en asíncrona. Esto implica que la función puede ejecutarse de forma asíncrona y además devuelve una promesa cuando no se hace de forma explícita. 
 
 ```js
 async function funcionAsincrona() {
@@ -2033,18 +2033,19 @@ function funcionAsincrona() {
 Una función `async` nos permite usar la palabra clave `await` dentro de su código. Se debe usar junto con una función que devuelva una promesa y sirve para suspender la ejecución de la función asíncrona mientras se espera a que se resuelva la promesa. Una vez resuelta esta, el código continua la ejecución normal.
 
 ```js
-let miPromesa = new Promise(resolve => {
-      setTimeout(() => resolve('Promesa cumplida'), 2000)
-      }
-);
+function ejecutarPromesa(tiempo) {
+      return new Promise(resolve => {
+            setTimeout(() => resolve('Promesa cumplida'), tiempo)
+      });
+};
 
 
 async function funcionAsincrona() {
-      let mensaje = await miPromesa;
+      let mensaje = await ejecutarPromesa(2000);
       console.log(mensaje);
 }
 
-funcionAsincrona(); //Promesa cumplida (tras dos segundos de espera)
+funcionAsincrona(); //Promesa cumplida (tras 2 segundos)
 ```
 
 </br>
@@ -2052,91 +2053,65 @@ funcionAsincrona(); //Promesa cumplida (tras dos segundos de espera)
 
 ### USO CON PROMESAS ENCADENADAS
 
-La ventaja de usar `async` y `await` se puede ver claramente en el encadenamiento de promesas. Nos evita la necesidad de configurar explícitamente las cadenas de promesas y controlar el flujo de ejecución de promesas resulta más fácil de hacer. Además el código obtenido es más sencillo y fácil de leer sobre todo cuando también se emplean funciones flecha.
+La ventaja de usar `async` y `await` se puede ver claramente en el encadenamiento de promesas. Nos evita la necesidad de configurar explícitamente las cadenas de promesas y controlar el flujo de ejecución de promesas resulta más fácil de hacer. Además el código obtenido es más sencillo y fácil de leer.
 
 ```js
-async function foo() {
-  try {
-    const result = await doSomething();
-    const newResult = await doSomethingElse(result);
-    const finalResult = await doThirdThing(newResult);
-    console.log(`Got the final result: ${finalResult}`);
-  } catch (error) {
-    failureCallback(error);
-  }
-}
-```
-
-```js
-let primeraPromesa = new Promise( (resolve) => 
-      setTimeout(() => resolve('Promesa 1 cumplida'), 2000)
-);
-
-let segundaPromesa = new Promise( (resolve) => 
-      setTimeout(() => resolve('Promesa 2 cumplida'), 2000)
-);
-
-let terceraPromesa = new Promise( (resolve) => 
-      setTimeout(() => resolve('Promesa 3 cumplida'), 6000)
-);
+function iniciarPromesa(promesa) {
+      return new Promise((resolve) => {
+            setTimeout(() => resolve(promesa + " cumplida"), 2000)
+      });
+};
 
 
 async function ejecutarPromesas() {
-      const p3 = await terceraPromesa;
-      console.log(p3);
-      const p1 = await primeraPromesa;
-      console.log(p1);
-      const p2 = await segundaPromesa;
-      console.log(p2);
-      
-      
+      console.log(await iniciarPromesa("Promesa 1"));
+      console.log(await iniciarPromesa("Promesa 2"));
+      console.log(await iniciarPromesa("Promesa 3"));
 };
+
 
 ejecutarPromesas();
+
+
+//CONSOLA:
+//Promesa 1 cumplida (tras 2 segundos)
+//Promesa 2 cumplida (tras 4 segundos)
+//Promesa 3 cumplida (tras 6 segundos)
 ```
 
+</br>
 
 
+Junto a `async` y `await` podemos usar un bloque `try...catch` para controlar un posible error cuando se rechaza alguna de las promesas.
 
 ```js
-function primeraPromesa() {
-      return new Promise((resolve) => {
-            setTimeout(() => {
-                  resolve("Promesa 1 cumplida");
-            }, 2000);
+function iniciarPromesa(promesa, cumplirPromesa) {
+      return new Promise((resolve, reject) => {
+            setTimeout(() => (cumplirPromesa ? resolve(promesa + " cumplida") : reject(promesa + " rechazada")), 2000)
       });
-}
-
-function segundaPromesa() {
-      return new Promise((resolve) => {
-            setTimeout(() => {
-                  resolve("Promesa 2 cumplida");
-            }, 2000);
-      });
-}
-
-function terceraPromesa() {
-      return new Promise((resolve) => {
-            setTimeout(() => {
-                  resolve("Promesa 3 cumplida");
-            }, 2000);
-      });
-}
-
-async function ejecutarPromesas() {
-      const p1 = await primeraPromesa();
-      console.log(p1);
-      const p2 = await segundaPromesa();
-      console.log(p2);
-      
 };
 
 
-ejecutarPromesas()
+async function ejecutarPromesas() {
+      try {
+            console.log(await iniciarPromesa("Promesa 1", true));
+            console.log(await iniciarPromesa("Promesa 2", true));
+            console.log(await iniciarPromesa("Promesa 3", false));
+            console.log(await iniciarPromesa("Promesa 4", true));
+      }
+      catch (error) {
+            console.log("ERROR: " + error);
+      }
+};
+
+
+ejecutarPromesas();
+
+
+//CONSOLA:
+//Promesa 1 cumplida (tras 2 segundos)
+//Promesa 2 cumplida (tras 4 segundos)
+//ERROR: Promesa 3 rechazada (tras 6 segundos)
 ```
 
-
-
-
-
-
+</br></br></br>
