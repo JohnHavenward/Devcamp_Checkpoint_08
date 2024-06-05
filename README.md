@@ -7,7 +7,7 @@
 [¿Qué es una función de flecha?](#función-flecha)</br>
 [¿Qué es la deconstrucción de variables?](#deconstrucción-de-variables)</br>
 [¿Qué hace el operador de extensión en JS?](#operador-de-extensión)</br>
-TODO[¿Qué es la programación orientada a objetos?](#programación-orientada-a-objetos)</br>
+[¿Qué es la programación orientada a objetos?](#programación-orientada-a-objetos)</br>
 [¿Qué es una promesa en JS?](#promesas)</br>
 [¿Qué hacen async y await por nosotros?](#async-y-await)</br>
 
@@ -1159,7 +1159,9 @@ console.log(sumar(7,4,1,8)); //20
 
 ## PROGRAMACIÓN ORIENTADA A OBJETOS
 
-Python es un lenguaje de programación orientado a objetos y por tanto emplea los conceptos de clase y objeto. La programación orientada a objetos está basada en cuatro principios o pilares básicos que son los siguientes:
+JavaScript es un lenguaje de programación orientado a objetos que emplea los conceptos de prototipo y objeto. Aunque JavaScript se basa en prototipos y no en clases como hacen otros lenguajes de programación, proporciona la opción de trabajar con clases a los desarrolladores que estén familiarizados con ellas.
+
+La programación orientada a objetos está basada en cuatro principios o pilares básicos que son los siguientes:
 
 - **Herencia** - reutilizar el código compartiéndolo entre varios objetos.
 - **Encapsulamiento** - proteger la información de manipulaciones no autorizadas.
@@ -1170,8 +1172,6 @@ Python es un lenguaje de programación orientado a objetos y por tanto emplea lo
 
 
 Las clases son la pieza clave para poder cumplir esos principios y en esencia lo que hacen es agrupar una serie de variables y funciones en un único elemento. Una vez definido, ese elemento puede ser construido múltiples veces y cada copia es única e independiente del resto. Las clases pueden entenderse así como las "plantillas" o "modelos" que son usados para producir objetos nuevos.
-
-</br>
 
 Puede resultar útil para entender el concepto de una clase fijarse en el mito de la cueva descrito por Platón. En él la idea de un objeto es el único verdadero o perfecto y puede verse como la clase. El resto son solo sombras proyectadas y se corresponden con los objetos creados a partir de esa clase.
 
@@ -1184,20 +1184,20 @@ La clase es la parte teórica que no podemos encontrar directamente presente en 
 </br></br>
 
 
-En python cada objeto pertenece a una clase y es la que la hace tener ciertas funciones y variables asociadas a ella.
+En JavaScript los objetos pueden pertenecer a una clase y es la que los hace tener ciertas funciones y variables asociadas a él.
 
 Para definir una clase debemos usar la palabra reservada `class` junto a su nombre. Por convenio la primera letra del nombre de una clase siempre de escribe en mayúsculas. Vemos un ejemplo a continuación:
 
-</br>
+```js
+class Vehículo {
+      color = "rojo";
+      ruedas = 4;
+};
 
-```python
-class Vehículo:
-    color = "rojo"
-    ruedas = 4
+let miVehículo = new Vehículo();
     
                
-print(f'El vehículo es de color {Vehículo.color} y tiene {Vehículo.ruedas} ruedas.')
-#El vehículo es de color rojo y tiene 4 ruedas.
+console.log(`El vehículo es de color ${miVehículo.color} y tiene ${miVehículo.ruedas} ruedas.`) //El vehículo es de color rojo y tiene 4 ruedas.
 ```
 
 </br>
@@ -1205,41 +1205,26 @@ print(f'El vehículo es de color {Vehículo.color} y tiene {Vehículo.ruedas} ru
 
 ### INSTANCIAS
 
-La creación de una instancia, también llamada instanciación de una clase, es el proceso de crear un objeto a partir de la plantilla definida por la clase. 
+La creación de una instancia, también llamada instanciación de una clase, es el proceso de crear un objeto a partir de la plantilla definida por la clase. Una clase puede tener tantas instancias creadas como se quiera. Para acceder a los métodos y atributos de la instancia se usa el operador `.`.
 
-Una clase puede tener tantas instancias creadas como se quiera.
-
-Para acceder a los métodos y atributos de la instancia se usa el operador `.` tal y como vemos a continuación:
-
-</br>
-
-```python
-class Alerta:
-    def __init__(self, identificador, hora):
-        self.identificador = identificador
-        self.hora = hora
-  
-    def informar(self):
-        print(f'La alerta "{self.identificador}" está programada para las {self.hora}h')
+```js
+class Alerta {
+      constructor(identificador, hora) {
+            this.identificador = identificador;
+            this.hora = hora;
+      };   
+      informar() {
+            console.log(`La alerta "${this.identificador}" está programada para las ${this.hora}h`);
+      };
+};
 
 
-alerta_1 = Alerta("Reunión", "10:30")
-alerta_2 = Alerta("Comida", "14:00")
+let alerta_1 = new Alerta("Reunión", "10:30");
+let alerta_2 = new Alerta("Comida", "14:00");
 
 
-print(alerta_1.identificador) #Reunión
-alerta_2.informar() #La alerta "Comida" está programada para las 14:00h
-```
-</br>
-
-
-Para eliminar una instancia creada podemos usar la palabra clave `del`. Vemos su uso siguiendo con el ejemplo anterior:
-
-</br>
-
-```python
-del alerta_1
-del alerta_2
+console.log(alerta_1.identificador); //Reunión
+console.log(alerta_2.informar()); //La alerta "Comida" está programada para las 14:00h
 ```
 
 </br>
@@ -1247,25 +1232,30 @@ del alerta_2
 
 ### CONSTRUCTOR
 
-Cuando una instancia de una clase es creada se ejecuta automáticamente el método `__init__()`. Este método es el constructor de la clase y se encarga de recibir los argumentos y asignarlos a la instancia. De esta forma podemos asignar de forma sencilla y breve información a cada una de las instancias creadas.
+Cuando una instancia de una clase es creada se ejecuta automáticamente el método `constructor()`. Este método es el constructor de la clase y se encarga de recibir los argumentos y asignarlos a la instancia. De esta forma podemos asignar de forma sencilla y breve información a cada una de las instancias creadas.
 
-El constructor debe estar definido dentro de la clase y hacer uso del parámetro `self` para hacer referencia a la instancia creada.
+El constructor debe estar definido dentro de la clase y hacer uso del parámetro `this` para hacer referencia a la instancia creada.
 
-Cuando creamos una instancia no es necesario hacer ninguna referencia al método `__init__()`, simplemente debemos pasar todos los argumentos definidos en él y omitir el argumento `self` ya que este es pasado de forma implícita.
+Cuando creamos una instancia no es necesario hacer ninguna referencia al método `constructor()`, simplemente debemos pasar todos los argumentos definidos en él.
 
-Podemos ver un ejemplo del uso de un constructor a continuación:
+```js
+class Pasajero{
+      constructor(nombre, apellido, edad) {
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.edad = edad;  
+      };    
+};
 
-```python
-class Pasajero:
-    def __init__(self, nombre, apellido, edad):
-        self.nombre = nombre
-        self.apellido = apellido
-        self.edad = edad
+
+let pasajero1 = new Pasajero("Ismael", "García", 57);
+let pasajero2 = new Pasajero("Helena", "Salgado", 44);
+let pasajero3 = new Pasajero("Lucía", "Blanco", 31);
 
 
-pasajero_1 = Pasajero("Ismael", "García", 57)
-pasajero_2 = Pasajero("Helena", "Salgado", 44)
-pasajero_3 = Pasajero("Lucía", "Blanco", 31)
+console.log(pasajero1); //Pasajero {nombre: "Ismael", apellido: "García", edad: 57}
+console.log(pasajero2); //Pasajero {nombre: "Helena", apellido: "Salgado", edad: 44}
+console.log(pasajero3); //Pasajero {nombre: "Lucía", apellido: "Blanco", edad: 31}
 ```
 
 </br>
@@ -1273,243 +1263,135 @@ pasajero_3 = Pasajero("Lucía", "Blanco", 31)
 
 ### ATRIBUTOS
 
-Un atributo es una variable que forma parte de una clase. La única diferencia con una variable normal de python es que un atributo siempre debe estar asociado a una clase.
+Un atributo es una variable que forma parte de una clase. La única diferencia con una variable normal de JavaScript es que un atributo siempre debe estar asociado a una clase.
 
 Una clase puede contener tantos atributos como se quiera.
 
 Hay dos tipos de atributos dentro de una clase:
 
-- Atributos de clase
 - Atributos de instancia
+- Atributos de clase
 
 </br>
 
 
-Los atributos de clase son comunes a todas las instancias y se definen directamente dentro de la clase. El valor de un atributo de clase es único y compartido por todas las instancias y la propia clase. Si alguno de los objetos asociados a ella cambia su valor lo hace también para el resto. Podemos ver un ejemplo de ello a continuación:
+#### ATRIBUTOS DE INSTANCIA
 
-</br>
+Los atributos de instancia son propios de cada instancia y se definen dentro del método `constructor()`. Cada instancia tiene un valor propio para cada atributo.  Si una instancia cambia el valor de su atributo no afecta al resto de las instancias. Además la clase en sí no tiene definidos estos atributos y por tanto no tiene acceso a ellos.
 
-```python
-class Concursante:
-    premio_acumulado = 300
-  
-    def __init__(self, nombre):
-        self.nombre = nombre
-
-
-concursante_1 = Concursante("Sonia")
-concursante_2 = Concursante("Ruth")
-concursante_3 = Concursante("Nicolás")
+```js
+class Cuenta {
+      constructor(titular, fondos) {
+            this.titular = titular;
+            this.fondos = fondos;
+      };
+};
 
 
-print(Concursante.premio_acumulado) #300
+cuenta1 = new Cuenta("Carmen", 1900);
+cuenta2 = new Cuenta("Antonio", 2700);
 
-Concursante.premio_acumulado += 50
-print (concursante_1.premio_acumulado) #350
 
-Concursante.premio_acumulado += 100
-print (concursante_2.premio_acumulado) #450
-
-Concursante.premio_acumulado += 250
-print (concursante_3.premio_acumulado) #700
+console.log(cuenta1.titular + " : " + cuenta1.fondos + "$"); //Carmen : 1900$ 
+console.log(cuenta2.titular + " : " + cuenta2.fondos + "$"); //Antonio : 2700$
 ```
-</br>
-
-
-Los atributos de instancia son propios de cada instancia y se definen dentro del método `__init__()`. Cada instancia tiene un valor propio para cada atributo.  Si una instancia cambia el valor de su atributo no afecta al resto de las instancias. Además la clase en sí no tiene definidos estos atributos y por tanto no tiene acceso a ellos. Podemos ver la definición y uso de atributos de instancia en el siguiente ejemplo:
 
 </br>
 
-```python
-class Cuenta:
-  def __init__(self, titular, fondos):
-    self.titular = titular
-    self.fondos = fondos
+
+#### ATRIBUTOS DE CLASE
+
+Los atributos de clase pertenecen a la propia clase y no a las instancias creadas. Se definen directamente dentro de la clase precedidos por la palabra clave `static`. Si una instancia quiere hacer referencia a ese atributo siempre debe hacerlo refiriéndose a la clase.
+
+```js
+class Concursante {
+      static premioAcumulado = 300;  
+       
+      constructor(nombre) {
+            this.nombre = nombre;
+      };
+      
+      obtenerPremioAcumulado() {
+            console.log(Concursante.premioAcumulado);
+      }
+};
 
 
-cuenta_1 = Cuenta("Carmen", 1900)
-cuenta_2 = Cuenta("Antonio", 2700)
+let concursante1 = new Concursante("Sonia");
+let concursante2 = new Concursante("Ruth");
+let concursante3 = new Concursante("Nicolás");
 
-print (cuenta_1.titular + " : " + str(cuenta_1.fondos) + "$") #Carmen : 1900$ 
-print (cuenta_2.titular + " : " + str(cuenta_2.fondos) + "$") #Antonio : 2700$
+
+console.log(Concursante.premioAcumulado); //300
+
+Concursante.premioAcumulado += 50;
+concursante1.obtenerPremioAcumulado(); //350
+
+Concursante.premioAcumulado += 100;
+concursante2.obtenerPremioAcumulado(); //450
+
+Concursante.premioAcumulado += 250;
+concursante3.obtenerPremioAcumulado(); //700
 ```
-</br>
-
-
-##### PROPIEDADES
-
-Las propiedades son un tipo especial de atributo de instancia que se definen con el decorador `@property`. La principal diferencia de una propiedad es que permiten un acceso controlado a ella en los procesos de lectura y escritura  de esta. Esto permite hacer comprobaciones e incluso realizar algún cálculo de forma automática cuando se acceda a su valor.
-
-Para ello se definen dos métodos:
-
-- el método *getter*: se encarga de la lectura del atributo
-- el método *setter*: se encarga de la escritura del atributo
 
 </br>
 
-
-Podemos ver un ejemplo del uso de propiedades a continuación:
-
-</br>
-
-```python
-class Casa:
-    def __init__(self, precio):
-        self.__precio = precio
-
-    @property
-    def precio(self):
-        return self.__precio
-
-    @precio.setter
-    def precio(self, nuevo_valor):
-        if nuevo_valor != "":
-            print(f'Modificando el precio a {nuevo_valor}')
-            self.__precio = nuevo_valor
-        else:
-            print("Error. Se debe pasar un valor")
-            
-
-mansión = Casa("1.200.000€")
-
-mansión.precio = "900.000€"
-#Modificando el precio a 900.000€
-
-print(mansión.precio)
-#900.000€
-```
-</br>
-
-
-Nótese que aunque por su sintaxis un atributo puede parecer un método no se usa el símbolo `()` cuando se hace referencia a él. 
-</br>
 
 
 ### MÉTODOS
 
-Un método es una función que forma parte de una clase. La única diferencia con una función normal de python es que un método siempre debe estar asociado a una clase. Se pueden definir tantos métodos como se quiera dentro de una clase.
+Un método es una función que forma parte de una clase. La única diferencia con una función normal de JavaScript es que un método siempre debe estar asociado a una clase. Se pueden definir tantos métodos como se quiera dentro de una clase.
 
-Cuando definimos un método el primer parámetro siempre debe ser `self`. Este hace referencia a la instancia que la llama y sirve para acceder a sus atributos y métodos. El uso de del nombre *self* es totalmente arbitrario y simplemente se trata de una convención.
-
-Existen principalmente cuatro tipos diferentes de métodos y son los siguientes:
+Existen principalmente dos tipos diferentes de métodos y son los siguientes:
 
 - Métodos de instancia
 - Métodos de clase
-- Métodos estáticos
-- Métodos abstractos
 
 </br>
 
 
-##### MÉTODOS DE INSTANCIA
+#### MÉTODOS DE INSTANCIA
 
-Los métodos de instancia son los métodos definidos normalmente dentro de la clase. Aparte de `self` pueden definir otros parámetros tal y como vemos en el siguiente ejemplo:
+Los métodos de instancia son los métodos definidos normalmente dentro de la clase y pueden ser llamados por las instancias creadas. Este tipo de métodos no pueden ser llamados directamente por la clase.
 
-</br>
-
-```python
-class Trapo:
-    def limpiar(self, objeto):
-        print(f'Limpiando {objeto}')
-
-
-mi_trapo = Trapo()
+```js
+class Trapo {
+      limpiar(objeto) {
+            console.log(`Limpiando ${objeto}`);
+      }
+};
 
 
-mi_trapo.limpiar("mesa") #Limpiando mesa
-mi_trapo.limpiar("silla") #Limpiando silla
+let miTrapo = new Trapo();
+
+
+miTrapo.limpiar("mesa"); //Limpiando mesa
+miTrapo.limpiar("silla"); //Limpiando silla
 ```
 
 </br>
 
 
-##### MÉTODOS DE CLASE
+#### MÉTODOS DE CLASE
 
-Los métodos de clase se definen con el decorador `@classmethod` y usan el parámetro `cls` en lugar de `self`. Este parámetro hace referencia a la clase del objeto y no a la instancia. Es por ello que solo pueden acceder y modificar a la clase y en ningún caso pueden hacerlo a la propia instancia.
+Los métodos de clase se tienen la particularidad de que van ligadas a una clase concreta y no a las instancias creadas a partir de ella. Estos métodos se definen con la palabra clave `static`.
 
-Pueden llamarse desde la clase o la instancia indistintamente. Vemos un ejemplo a continuación:
-
-</br>
-
-```python
-class Concursante:
-    premio_acumulado = 0
-  
-    @classmethod
-    def acumular_premio(cls, premio):
-        cls.premio_acumulado += premio
+```js
+class Matemáticas {
+      static sumar(a, b) {
+            return a + b;
+      };
+      static multiplicar(a, b) {
+            return a * b;
+      };    
+};
 
 
-concursante_1 = Concursante()
-concursante_2 = Concursante()
-
-
-print(Concursante.premio_acumulado) #0
-
-Concursante.acumular_premio(50)
-print(Concursante.premio_acumulado) #50
-
-concursante_1.acumular_premio(100)
-print(Concursante.premio_acumulado) #150
-
-concursante_2.acumular_premio(100)
-print(Concursante.premio_acumulado) #250
+console.log(Matemáticas.sumar(5, 3)); //8
+console.log(Matemáticas.multiplicar(5, 3)); //15
 ```
 
 </br>
-
-
-##### MÉTODOS ESTÁTICOS
-
-Los métodos estáticos se definen con el decorador `@staticmethod` y no tienen como parámetro ni la instancia ni la clase. Es por ello por lo que el uso de estos métodos previenen el poder modificarlas y son usados como métodos que aportan utilidades concretas.
-
-Los métodos estáticos se pueden ver como funciones normales con la particularidad de que van ligadas a una clase concreta. En el siguiente ejemplo se muestra su uso:
-
-</br>
-
-```python
-class Matemáticas:
-    @staticmethod
-    def sumar(a, b):
-        return a + b
-        
-    @staticmethod
-    def multiplicar(a, b):
-        return a * b
-
-
-print(Matemáticas.sumar(5, 3)) #8
-print(Matemáticas.multiplicar(5, 3)) #15
-```
-
-</br>
-
-
-##### MÉTODOS ABSTRACTOS
-
-Los métodos abstractos son aquellos que son declarados pero no tienen una implementación directa en la clase. Su finalidad es que las clases que hereden de esta estén obligadas a hacer su propia implementación de este método.
-
-Se definen con el decorador `@abstractmethod` (incluido en el módulo `abc` de python) y son frecuentemente usados para crear interfaces que faciliten la comunicación entre diferentes clases. Vemos un ejemplo a continuación:
-
-</br>
-
-```python
-from abc import abstractmethod
-
-class Herramienta:    
-    @abstractmethod
-    def describir_funcionamiento(self):
-        pass
-      
-
-class Taladro(Herramienta):
-    def describir_funcionamiento():
-        print("Esta herramienta sirve para hacer agujeros.")
-        
-Taladro.describir_funcionamiento() #Esta herramienta sirve para hacer agujeros.
-```
-</br>
-
 
 
 ### HERENCIA
@@ -1517,34 +1399,44 @@ Taladro.describir_funcionamiento() #Esta herramienta sirve para hacer agujeros.
 La herencia es un proceso mediante el cual se puede crear una clase hija o *child* que hereda de una clase padre o *parent*.
 Esto permite que la clase hija acceda a los métodos y atributos definidos por la clase padre. Igualmente una clase hija puede definir sus propios métodos y atributos o incluso sobrescribir los de la clase padre.
 
-Se puede crear una clase hija simplemente pasando como parámetro la clase padre de la que queremos heredar. Vemos un ejemplo de ello a continuación:
+Se puede crear una clase hija simplemente usando la palabra clave `extends` junto con la clase padre de la que queremos heredar. Dentro del código de la clase hija podemos hacer uso de de la función `super()` para poder ampliar el constructor de la clase padre y también para acceder a sus métodos.
 
-</br>
+```js
+class Animal {
+      constructor() {
+            this.tamaño = "grande";
+            this.patas = 4;
+            this.vuelo = false;
+      }
+      describir() {
+            console.log(`Este animal es ${this.tamaño}, tiene ${this.patas} patas y ${this.vuelo ? "puede volar" : "no puede volar"}.`)
+      };
+};
+    
 
-```python
-class Animal:
-    tamaño = "grande"
-    patas = 4
-    vuelo = False
-    
-    @classmethod
-    def describir(cls):
-        print(f'Este animal es {cls.tamaño}, tiene {cls.patas} patas y {"puede volar" if cls.vuelo else "no puede volar"}.')
-    
+class Gato extends Animal {
+      constructor() {
+            super();
+            this.tamaño = "mediano";
+      };
+};  
+  
+class Pajaro extends Animal {
+      constructor() {
+            super();
+            this.tamaño = "pequeño";
+            this.patas = 2;
+            this.vuelo = true;
+      };
+};    
 
-class Gato(Animal):
-    tamaño = "mediano"
-    
-    
-class Pájaro(Animal):
-    tamaño = "pequeño"
-    patas = 2
-    vuelo = True
-    
-    
-Gato.describir() #Este animal es mediano, tiene 4 patas y no puede volar.
 
-Pájaro.describir() #Este animal es pequeño, tiene 2 patas y puede volar.
+let miGato = new Gato();
+let miPajaro = new Pajaro();
+
+
+miGato.describir(); //Este animal es mediano, tiene 4 patas y no puede volar.
+miPajaro.describir(); //Este animal es pequeño, tiene 2 patas y puede volar.
 ```
 
 </br>
@@ -1567,66 +1459,77 @@ Podemos ver una comparación práctica de la herencia de clases viendo la clasif
 
 
 Podemos ver en el siguiente ejemplo el uso de la herencia para definir múltiples clases que comparten parcialmente las misma funcionalidad:
- 
-</br>
 
-```python
-class Invento:
-    fecha = "Desconocida"
-    inventor = "Desconocido"
-    
-    def __init__(self, propietario, identificador):
-        self.propietario = propietario
-        self.identificador = identificador
-
-    def describir(self):
-        pass
-
-    def mostrar_datos(self):
-        print("Nombre: " + type(self).__name__ + "  Fecha: " + str(self.fecha) + "  Inventor: " + self.inventor)
-
-
-class Teléfono(Invento):
-    fecha = 1876
-    inventor = "Alexander Graham Bell"
-
-    def describir(self):
-        print("El teléfono es un dispositivo de telecomunicación creado para transmitir señales acústicas a distancia por medio de señales eléctricas.")
+```js
+class Invento {
+      constructor(propietario, identificador) {
+            this.fecha = "Desconocida";
+            this.inventor = "Desconocido";
+            this.propietario = propietario;
+            this.identificador = identificador;
+      };
+      describir() {
+            console.log("Descripción no disponible.");
+      };
+      mostrarDatos() {
+            console.log("Nombre: " + this.constructor.name + "  Fecha: " + this.fecha + "  Inventor: " + this.inventor);
+      };
+};
 
 
-class Imprenta(Invento):
-    fecha = 1440
-    inventor = "Johannes Gutenberg"
-
-    def describir(self):
-        print("La imprenta es un método mecánico destinado a reproducir textos e imágenes sobre papel, vitela, tela u otro material.")
-
-    def dato_curioso(self):
-        print("La biblia de Gutenberg fue el primer libro impreso de la historia y se imprimió con un total de 42 líneas por cada página.")
-
-
-class Telescopio(Invento):
-    fecha = 1608
-    inventor = "Hans Lippershey"
-
-    def describir(self):
-        print("El telescopio es un instrumento óptico que permite observar objetos lejanos con mucho más detalle que a simple vista")
+class Telefono extends Invento {
+      constructor() {
+            super();
+            this.fecha = 1876;
+            this.inventor = "Alexander Graham Bell";
+      };
+      describir() {
+            console.log("El teléfono es un dispositivo de telecomunicación creado para transmitir señales acústicas a distancia por medio de señales eléctricas.");
+      };
+};
 
 
-teléfono_963 = Teléfono("Museo Metropolitano", "ET-963")
-imprenta_120 = Imprenta("Biblioteca Antigua", "GG-120")
-telescopio_568 = Telescopio("Planetario Central", "FH-568")
+class Imprenta extends Invento {
+      constructor() {
+            super();
+            this.fecha = 1440;
+            this.inventor = "Johannes Gutenberg";
+      };
+      describir() {
+            console.log("La imprenta es un método mecánico destinado a reproducir textos e imágenes sobre papel, vitela, tela u otro material.");
+      };
+      datoCurioso() {
+            console.log("La biblia de Gutenberg fue el primer libro impreso de la historia y se imprimió con un total de 42 líneas por cada página.");
+      };
+};
 
 
-teléfono_963.mostrar_datos() #Nombre: Teléfono  Fecha: 1876  Inventor: Alexander Graham Bell
-teléfono_963.describir() #El teléfono es un dispositivo de telecomunicación creado para transmitir señales acústicas a distancia por medio de señales eléctricas.
+class Telescopio extends Invento {
+      constructor() {
+            super();
+            this.fecha = 1608;
+            this.inventor = "Hans Lippershey";
+      };
+      describir() {
+            console.log("El telescopio es un instrumento óptico que permite observar objetos lejanos con mucho más detalle que a simple vista.");
+      };
+};
 
-imprenta_120.mostrar_datos() #Nombre: Imprenta  Fecha: 1440  Inventor: Johannes Gutenberg
-imprenta_120.describir() #La imprenta es un método mecánico destinado a reproducir textos e imágenes sobre papel, vitela, tela u otro material.
-imprenta_120.dato_curioso() #La biblia de Gutenberg fue el primer libro impreso de la historia y se imprimió con un total de 42 líneas por cada página.
 
-telescopio_568.mostrar_datos() #Nombre: Telescopio  Fecha: 1608  Inventor: Hans Lippershey
-telescopio_568.describir() #El telescopio es un instrumento óptico que permite observar objetos lejanos con mucho más detalle que a simple vista
+let teléfono963 = new Telefono("Museo Metropolitano", "ET-963");
+let imprenta120 = new Imprenta("Biblioteca Antigua", "GG-120");
+let telescopio568 = new Telescopio("Planetario Central", "FH-568");
+
+
+teléfono963.mostrarDatos(); //Nombre: Teléfono  Fecha: 1876  Inventor: Alexander Graham Bell
+teléfono963.describir(); //El teléfono es un dispositivo de telecomunicación creado para transmitir señales acústicas a distancia por medio de señales eléctricas.
+
+imprenta120.mostrarDatos(); //Nombre: Imprenta  Fecha: 1440  Inventor: Johannes Gutenberg
+imprenta120.describir(); //La imprenta es un método mecánico destinado a reproducir textos e imágenes sobre papel, vitela, tela u otro material.
+imprenta120.datoCurioso(); //La biblia de Gutenberg fue el primer libro impreso de la historia y se imprimió con un total de 42 líneas por cada página.
+
+telescopio568.mostrarDatos(); //Nombre: Telescopio  Fecha: 1608  Inventor: Hans Lippershey
+telescopio568.describir(); //El telescopio es un instrumento óptico que permite observar objetos lejanos con mucho más detalle que a simple vista.
 ```
 
 </br>
@@ -1634,35 +1537,9 @@ telescopio_568.describir() #El telescopio es un instrumento óptico que permite 
 
 Los métodos de la clases heredadas pueden clasificarse en tres tipos diferentes:
 
-- Heredados directamente de la clase padre: mostrar_datos()
-- Heredados de la clase padre pero modificados: describir()
-- Creados en la clase hija por lo tanto no existentes en la clase padre: dato_curioso()
-
-</br></br>
-
-
-Por último cabe mencionar que podemos hacer uso de de la función `super()` desde la clase hija para acceder a los métodos de la clase padre y poder ampliar el constructor. Vemos un ejemplo de ello a continuación:
-
-</br>
-
-```python
-class Construcción:
-    def __init__(self, altura):
-        self.altura = altura
-        print(f'Se trata de una construcción {self.altura}.')
-
-        
-class Casa(Construcción):
-    def __init__(self, altura, material):
-        super().__init__(altura)
-        self.material = material
-        print(f'En concreto una casa de {self.material}.')
- 
-          
-mi_casa = Casa("alta", "piedra")
-#Se trata de una construcción alta.
-#En concreto una casa de piedra.
-```
+- Heredados directamente de la clase padre: `mostrarDatos()`
+- Heredados de la clase padre pero modificados: `describir()`
+- Creados en la clase hija por lo tanto no existentes en la clase padre: `datoCurioso()`
 
 </br>
 
@@ -1671,54 +1548,50 @@ mi_casa = Casa("alta", "piedra")
 
 El término polimorfismo tiene origen en las palabras griegas *polys* (muchos) y *morpho* (formas). Este concepto aplicado a la programación hace referencia a que los objetos de diferentes clases pueden ser accedidos utilizando el mismo interfaz pero que pueden tomar diferentes formas en su respuesta.
 
-Según el principio de polimorfismo podemos llamar a la misma función en diferentes objetos que no pertenecen a la misma clase.
-La respuesta a esa llamada debe estar garantizada y ser diferente y específica para cada objeto. Los comportamientos obtenidos deben así ser distintos y "tomar diferentes formas".
+Según el principio de polimorfismo podemos llamar a la misma función en diferentes objetos que no pertenecen a la misma clase. La respuesta a esa llamada debe estar garantizada y ser diferente y específica para cada objeto. Los comportamientos obtenidos deben así ser distintos y "tomar diferentes formas".
 
 Esta característica permite que sin alterar el código existente de un programa se puedan incorporar nuevos comportamientos y funciones aportando así flexibilidad en el diseño del software. Para hacerlo simplemente se agregan nuevas clases cuyo único requisito es que deben tener implementados todos los métodos necesarios usados por el programa.
 
-Una manera fácil de asegurarse de ello es que las diferentes clases hereden de la misma clase padre y que esta tenga métodos abstractos definidos en ella. Esto garantiza que todas las clases hija definan esos métodos y por tanto puedan comunicarse con el mismo interfaz.
-
-</br>
-
-
-Vemos un ejemplo de todo ello a continuación:
-
-</br>
-
-```python
-from abc import abstractmethod
-
-class Forma:   
-    @abstractmethod
-    def calcular_perímetro():
-        pass
-      
-    @abstractmethod
-    def calcular_área():
-        pass
-      
-
-class Cuadrado(Forma):
-    def calcular_perímetro():
-        print("Se suman los cuatro lados")
-
-    def calcular_área():
-        print("Se multiplica la base por la altura")
-        
-        
-class Triángulo(Forma):
-    def calcular_perímetro():
-        print("Se suman los tres lados")
-
-    def calcular_área():
-        print("Se multiplica la base por la altura y se divide entre dos")
+```js
+class Forma {
+      calcularPerimetro() {
+            //vacío
+      };
+      calcularArea() {
+            //vacío
+      };
+};   
 
 
-Cuadrado.calcular_perímetro() #Se suman los cuatro lados
-Cuadrado.calcular_área() #Se multiplica la base por la altura
+class Cuadrado extends Forma {
+      calcularPerimetro() {
+            console.log("Se suman los cuatro lados");
+      };
+      calcularArea() {
+            console.log("Se multiplica la base por la altura");
+      };
+};     
 
-Triángulo.calcular_perímetro() #Se suman los tres lados
-Triángulo.calcular_área() #Se multiplica la base por la altura y se divide entre dos
+
+class Triangulo extends Forma {
+      calcularPerimetro() {
+            console.log("Se suman los tres lados");
+      };
+      calcularArea() {
+            console.log("Se multiplica la base por la altura y se divide entre dos");
+      };
+};
+
+
+let miCuadrado = new Cuadrado();
+let miTriangulo = new Triangulo();
+
+
+miCuadrado.calcularPerimetro(); //Se suman los cuatro lados
+miCuadrado.calcularArea(); //Se multiplica la base por la altura
+
+miTriangulo.calcularPerimetro(); //Se suman los tres lados
+miTriangulo.calcularArea(); //Se multiplica la base por la altura y se divide entre dos
 ```
 
 </br></br></br></br>
